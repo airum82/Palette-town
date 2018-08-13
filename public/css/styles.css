@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
 
+body {
+  font-family: 'Do Hyeon', sans-serif;
+}
 
 body::after{
   content: "";
@@ -9,11 +13,16 @@ body::after{
   height: 100%;
   background-image: url('../Kanto_Pallet_Town_Map.png');
   background-size: cover;
-  opacity: 0.4;
+  opacity: 0.3;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+button {
+  background-color: lightblue;
+  border: none;
 }
 
 .color-palette {
