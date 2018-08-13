@@ -2,6 +2,7 @@
 
 body {
   font-family: 'Do Hyeon', sans-serif;
+  color: #848080;
 }
 
 body::after{
@@ -34,6 +35,7 @@ button {
   display: block;
   width: 20vw;
   text-align: center;
+  color: white;
 }
 
 .center {
