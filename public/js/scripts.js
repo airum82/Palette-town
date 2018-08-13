@@ -1,3 +1,5 @@
+const generateButton = $('.generate-palette');
+
 const addColors = () => {
   let color = '#';
   const letters = '0123456789ABCDEF';
@@ -7,7 +9,7 @@ const addColors = () => {
   return color
 }
 
-const createPalette = (() => {
+const createPalette = () => {
   for(let i = 1; i < 6; i++) {
     $('.color-palette').append(
       `<div class=${'color' + i}>
@@ -20,4 +22,12 @@ const createPalette = (() => {
     $(`.color${i}`).children('h3').html(color);
   }
   $('.color-palette div').addClass('color');
-})();
+};
+
+createPalette();
+
+generateButton.on('click', () => {
+  event.preventDefault();
+  $('.color-palette').html('');
+  createPalette();
+})
