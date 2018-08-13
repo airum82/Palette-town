@@ -12,6 +12,7 @@ const createPalette = (() => {
     $('.color-palette').append(
       `<div class=${'color' + i}>
         <h3></h3>
+        <button>Lock</button>
       </div>`
     );
     const color = addColors();

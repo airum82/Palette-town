@@ -21,8 +21,13 @@ body::after{
   right: 0;
 }
 
+select {
+  color: #848080;
+}
+
 button {
   background-color: lightblue;
+  color: #848080;
   border: none;
 }
 
