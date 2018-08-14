@@ -1,5 +1,23 @@
 const generateButton = $('.generate-palette');
 
+$(document).ready(() => {
+  fetch('http://localhost:3000/folders')
+    .then(response => response.json())
+    .then(result => displayProjects(result.folders))
+})
+
+const displayProjects = (folders) => {
+  if(folders.length) {
+    folders.forEach(folder => {
+      $('.project-list').append(
+        `<article class=${folder}>
+          <h4>${folder}</h4>
+          <ul></ul>
+         </article>`
+      )
+    })
+  }
+}
 
 const addColors = () => {
   let color = '#';
@@ -58,3 +76,36 @@ const addLockOption = () => {
 }
 
 addLockOption();
+
+const createProject = () => {
+  $('.project-list').append(
+    `<article class=${$('.project-name').val()}>
+      <h4>${$('.project-name').val()}</h4>
+      <ul></ul>
+     </article>`
+  )
+  fetch('http://localhost:3000/newFolder', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify({ "name": $('.project-name').val() })
+  }).then(response => console.log(response))
+  $('.project-name').val('');
+}
+
+$('.create').on('click', createProject);
+
+const savePalette = function() {
+  event.preventDefault();
+  const colors = grabText();
+  $('.color').clone().appendTo('.project-list article');
+}
+
+const grabText = () => {
+  const colorCodes = []
+  $('.color h3').each((index, h3) => {
+    colorCodes.push(h3.innerText);
+  })
+  return colorCodes;
+}
+
+$('.save-palette').on('click', savePalette);
