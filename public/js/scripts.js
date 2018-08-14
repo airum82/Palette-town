@@ -12,7 +12,6 @@ const displayProjects = (folders) => {
       $('.project-list').append(
         `<article class=${folder}>
           <h4>${folder}</h4>
-          <ul></ul>
          </article>`
       )
     })
@@ -81,8 +80,12 @@ const createProject = () => {
   $('.project-list').append(
     `<article class=${$('.project-name').val()}>
       <h4>${$('.project-name').val()}</h4>
-      <ul></ul>
      </article>`
+  )
+  $('select').append(
+    `<option value=${$('project-name').val()}>
+      ${$('.project-name').val()}
+    </option>`
   )
   fetch('http://localhost:3000/newFolder', {
     method: 'POST',
