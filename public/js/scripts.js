@@ -3,25 +3,33 @@ const generateButton = $('.generate-palette');
 
 const addColors = () => {
   let color = '#';
-  const lockedColors = $('.lock').length;
   const letters = '0123456789ABCDEF';
-  for(let i = 0; i < 6 - lockedColors; i++) {
+  for(let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color
 }
 
+const preventColorReasign = lockedColors => {
+  if (lockedColors > 0) {
+    return Date.now();
+  }
+  return 0;
+}
+
 const createPalette = () => {
-  for(let i = 1; i < 6; i++) {
+  const lockedColors = $('.lock').length;
+  for(let i = 1; i < 6 - lockedColors; i++) {
+    const reasignPrevention = preventColorReasign(lockedColors)
     $('.color-palette').append(
-      `<div class=${'color' + i}>
+      `<div class=color${i + reasignPrevention}>
         <h3></h3>
         <button class="color-lock">Lock</button>
       </div>`
     );
     const color = addColors();
-    $(`.color${i}`).css('background-color', color);
-    $(`.color${i}`).children('h3').html(color);
+    $(`.color${i + reasignPrevention}`).css('background-color', color);
+    $(`.color${i + reasignPrevention}`).children('h3').html(color);
   }
   $('.color-palette div').addClass('color');
 };
@@ -44,11 +52,3 @@ $('.color-palette .color-lock').on('click', (e) => {
   }
   console.log($('.lock'))
 })
-
-// const gatherLockedColors = () => {
-//   let lockedColors = [];
-//   $('.lock').each(div => {
-//     lockedColors.push(div.children('h3').innerText())
-//   })
-//   console.log(lockedColors);
-// }
