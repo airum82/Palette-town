@@ -80,6 +80,7 @@ const createProject = () => {
   $('.project-list').append(
     `<article class=${$('.project-name').val()}>
       <h4>${$('.project-name').val()}</h4>
+      <section></section>
      </article>`
   )
   $('select').append(
@@ -100,7 +101,8 @@ $('.create').on('click', createProject);
 const savePalette = function() {
   event.preventDefault();
   const colors = grabText();
-  $('.color').clone().appendTo('.project-list article');
+  $('.color').clone().prependTo('.project-list article section');
+  $('.project-list article section').prepend(`<p>${$('.palette-name').val()}<p>`);
 }
 
 const grabText = () => {
