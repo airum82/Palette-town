@@ -40,15 +40,20 @@ generateButton.on('click', () => {
   event.preventDefault();
   $('.color-palette').html($('.lock') || '');
   createPalette();
+  addLockOption();
 })
 
-$('.color-palette .color-lock').on('click', (e) => {
-  const className = $(e.target).parent().attr('class');
-  const colorContainer = $(e.target).parent();
-  if(className.includes('lock')) {
-    colorContainer.removeClass('lock')
-  } else {
-    colorContainer.addClass('lock')
-  }
-  console.log($('.lock'))
-})
+const addLockOption = () => {
+  $('.color-palette .color-lock').on('click', (e) => {
+    const className = $(e.target).parent().attr('class');
+    const colorContainer = $(e.target).parent();
+    if(className.includes('lock')) {
+      colorContainer.removeClass('lock')
+    } else {
+      colorContainer.addClass('lock')
+    }
+    console.log($('.lock'))
+  })
+}
+
+addLockOption();
