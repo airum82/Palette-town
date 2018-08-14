@@ -49,10 +49,11 @@ const addLockOption = () => {
     const colorContainer = $(e.target).parent();
     if(className.includes('lock')) {
       colorContainer.removeClass('lock')
+      $(e.target).html('Lock')
     } else {
       colorContainer.addClass('lock')
+      $(e.target).html('Unlock');
     }
-    console.log($('.lock'))
   })
 }
 
