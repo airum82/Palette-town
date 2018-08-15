@@ -24,23 +24,20 @@ app.post('/newFolder', (request, response) => {
   }
 })
 
-app.post('/folders/:id', (request, response) => {
-  const { palette } = request.body;
-  if(!palette) {
+app.put('/folders/:id', (request, response) => {
+  if(request.body === {}) {
     return response.status(422).send({
       error: 'no palette provided'
     })
   } else {
-    app.locals.folders.find(folder => folder.id === request.params.id)
+    const folder = app.locals.folders.find(
+      folder => folder.id === parseInt(request.params.id));
+    folder.palettes = Object.assign({}, folder.palettes, request.body)
   }
 })
 
 app.get('/folders', (request, response) => {
   return response.status(200).json({ "folders": app.locals.folders })
-})
-
-app.put('/:id', (request, response) => {
-  const { id } = request.params;
 })
 
 app.listen(3000, () => {

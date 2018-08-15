@@ -1,4 +1,5 @@
 const generateButton = $('.generate-palette');
+let projects = []
 
 $(document).ready(() => {
   fetch('http://localhost:3000/folders')
@@ -9,6 +10,7 @@ $(document).ready(() => {
 const displayProjects = (folders) => {
   if(folders.length) {
     folders.forEach(folder => {
+      projects.push(folder);
       $('.project-list').append(
         `<article class=${folder.name} id=${folder.id}>
           <h4>${folder.name}</h4>
@@ -18,8 +20,7 @@ const displayProjects = (folders) => {
       $('select').append(
         `<option value=${folder}>
           ${folder}
-        </option>`
-          
+        </option>`  
       )
     })
   }
@@ -95,16 +96,16 @@ const createProject = () => {
       ${$('.project-name').val()}
     </option>`
   )
+  project = {
+    "name": $('.project-name').val(),
+    "id": Date.now(),
+    "palettes": {}
+  }
+  projects.push(project)
   fetch('http://localhost:3000/newFolder', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify(
-      { "name": $('.project-name').val(),
-        "id": Date.now(),
-        "palettes": {
-
-        }
-      })
+    body: JSON.stringify(project)
   }).then(response => console.log(response))
   $('.project-name').val('');
 }
@@ -113,15 +114,23 @@ $('.create').on('click', createProject);
 
 const savePalette = function() {
   event.preventDefault();
+  const paletteName = $('.palette-name').val();
   const colors = grabText();
+  sendPaletteToProject(paletteName, colors);
   $('.color-palette .color').clone().prependTo(`.project-list .${$('select').val()} section`);
-  console.log($('select').val())
-  $(`.project-list .${$('select').val()} section`).prepend(`<p>${$('.palette-name').val()}<p>`);
+  $(`.project-list .${$('select').val()} section`).prepend(`<p>${paletteName}<p>`);
 }
 
-// const sendColorsToProject = colors => {
-//   fetch('http://localhost:3000')
-// }
+const sendPaletteToProject = (name, colors) => {
+  const folder = projects.find(
+    project => project.name === $('select').val())
+  fetch(`http://localhost:3000/folders/${folder.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify({ [name]: colors })
+  }).then(response =>  console.log(response))
+    .catch(error => console.log(error))
+}
 
 const grabText = () => {
   const colorCodes = []
