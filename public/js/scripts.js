@@ -12,7 +12,14 @@ const displayProjects = (folders) => {
       $('.project-list').append(
         `<article class=${folder}>
           <h4>${folder}</h4>
+          <section></section>
          </article>`
+      )
+      $('select').append(
+        `<option value=${folder}>
+          ${folder}
+        </option>`
+          
       )
     })
   }
