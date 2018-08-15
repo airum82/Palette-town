@@ -18,8 +18,8 @@ const displayProjects = (folders) => {
          </article>`
       )
       $('select').append(
-        `<option value=${folder}>
-          ${folder}
+        `<option value=${folder.name}>
+          ${folder.name}
         </option>`  
       )
     })
@@ -53,8 +53,8 @@ const createPalette = () => {
       </div>`
     );
     const color = addColors();
-    $(`.color${i + reasignPrevention}`).css('background-color', color);
-    $(`.color${i + reasignPrevention}`).children('h3').html(color);
+    $(`.color-palette .color${i + reasignPrevention}`).css('background-color', color);
+    $(`.color-palette .color${i + reasignPrevention}`).children('h3').html(color);
   }
   $('.color-palette div').addClass('color');
 };
@@ -86,10 +86,10 @@ addLockOption();
 
 const createProject = () => {
   $('.project-list').append(
-    `<article class=${$('.project-name').val()}>
+    `<section class=${$('.project-name').val()}>
       <h4>${$('.project-name').val()}</h4>
-      <section></section>
-     </article>`
+      <section class="project-palettes"></section>
+     </section>`
   )
   $('select').append(
     `<option value=${$('.project-name').val()}>
@@ -112,13 +112,20 @@ const createProject = () => {
 
 $('.create').on('click', createProject);
 
+const createPaletteArticle = (currentFolder, paletteName) => {
+  $(`.project-list .${currentFolder} section`)
+    .prepend(`<article class=${paletteName}></article>`)
+}
 const savePalette = function() {
   event.preventDefault();
+  const currentFolder = $('select').val()
   const paletteName = $('.palette-name').val();
-  const colors = grabText();
+  createPaletteArticle(currentFolder, paletteName)
+  $('.color-palette .color').clone().prependTo(
+    `.project-list .${currentFolder} .${paletteName}`);
+  $(`.project-list .${currentFolder} .${paletteName}`).prepend(`<p>${paletteName}</p>`);
+  const colors = grabText(paletteName);
   sendPaletteToProject(paletteName, colors);
-  $('.color-palette .color').clone().prependTo(`.project-list .${$('select').val()} section`);
-  $(`.project-list .${$('select').val()} section`).prepend(`<p>${paletteName}<p>`);
 }
 
 const sendPaletteToProject = (name, colors) => {
@@ -134,7 +141,7 @@ const sendPaletteToProject = (name, colors) => {
 
 const grabText = () => {
   const colorCodes = []
-  $('.color h3').each((index, h3) => {
+  $('.project-list .color h3').each((index, h3) => {
     colorCodes.push(h3.innerText);
   })
   return colorCodes;
