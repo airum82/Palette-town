@@ -116,6 +116,7 @@ const createPaletteArticle = (currentFolder, paletteName) => {
   $(`.project-list .${currentFolder} section`)
     .prepend(`<article class=${paletteName}></article>`)
 }
+
 const savePalette = function() {
   event.preventDefault();
   const currentFolder = $('select').val()
@@ -139,9 +140,9 @@ const sendPaletteToProject = (name, colors) => {
     .catch(error => console.log(error))
 }
 
-const grabText = () => {
+const grabText = (paletteName) => {
   const colorCodes = []
-  $('.project-list .color h3').each((index, h3) => {
+  $(`.project-list .${paletteName} h3`).each((index, h3) => {
     colorCodes.push(h3.innerText);
   })
   return colorCodes;
