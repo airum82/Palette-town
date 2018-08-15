@@ -12,18 +12,26 @@ const displayProjects = (folders) => {
     folders.forEach(folder => {
       projects.push(folder);
       $('.project-list').append(
-        `<article class=${folder.name} id=${folder.id}>
+        `<section class=${folder.name} id=${folder.id}>
           <h4>${folder.name}</h4>
           <section></section>
-         </article>`
+         </section>`
       )
       $('select').append(
         `<option value=${folder.name}>
           ${folder.name}
         </option>`  
       )
+      displayProjectPalettes(folder.palettes, folder.name)
     })
   }
+}
+
+const displayProjectPalettes = (palettes, foldername) => {
+  Object.keys(palettes).forEach(palette => {
+    createPaletteArticle(foldername, palette);
+    $(`.project-list .${foldername} .${palette}`).prepend(`<p>${palette}</p>`);
+  })
 }
 
 const addColors = () => {
@@ -113,6 +121,7 @@ const createProject = () => {
 $('.create').on('click', createProject);
 
 const createPaletteArticle = (currentFolder, paletteName) => {
+  console.log(currentFolder)
   $(`.project-list .${currentFolder} section`)
     .prepend(`<article class=${paletteName}></article>`)
 }
