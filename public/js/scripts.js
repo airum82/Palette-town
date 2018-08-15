@@ -30,7 +30,14 @@ const displayProjects = (folders) => {
 const displayProjectPalettes = (palettes, foldername) => {
   Object.keys(palettes).forEach(palette => {
     createPaletteArticle(foldername, palette);
-    $(`.project-list .${foldername} .${palette}`).prepend(`<p>${palette}</p>`);
+    const palettePath = `.project-list .${foldername} .${palette}`;
+    palettes[palette].forEach((color, index) => {
+      $(palettePath).prepend(
+        `<div class=${index}>
+          </div>`)
+      $(`${palettePath} .${index}`).css('background-color', color)
+    })
+    $(palettePath).prepend(`<p>${palette}</p>`);
   })
 }
 
