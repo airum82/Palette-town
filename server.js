@@ -17,15 +17,30 @@ app.post('/newFolder', (request, response) => {
       error: 'no new folder provided'
     })
   } else {
-    app.locals.folders.push(name)
+    app.locals.folders.push(request.body)
     return response.status(200).send({
       message: 'new folder added'
     })
   }
 })
 
+app.post('/folders/:id', (request, response) => {
+  const { palette } = request.body;
+  if(!palette) {
+    return response.status(422).send({
+      error: 'no palette provided'
+    })
+  } else {
+    app.locals.folders.find(folder => folder.id === request.params.id)
+  }
+})
+
 app.get('/folders', (request, response) => {
   return response.status(200).json({ "folders": app.locals.folders })
+})
+
+app.put('/:id', (request, response) => {
+  const { id } = request.params;
 })
 
 app.listen(3000, () => {

@@ -10,8 +10,8 @@ const displayProjects = (folders) => {
   if(folders.length) {
     folders.forEach(folder => {
       $('.project-list').append(
-        `<article class=${folder}>
-          <h4>${folder}</h4>
+        `<article class=${folder.name} id=${folder.id}>
+          <h4>${folder.name}</h4>
           <section></section>
          </article>`
       )
@@ -98,7 +98,13 @@ const createProject = () => {
   fetch('http://localhost:3000/newFolder', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify({ "name": $('.project-name').val() })
+    body: JSON.stringify(
+      { "name": $('.project-name').val(),
+        "id": Date.now(),
+        "palettes": {
+
+        }
+      })
   }).then(response => console.log(response))
   $('.project-name').val('');
 }
@@ -112,6 +118,10 @@ const savePalette = function() {
   console.log($('select').val())
   $(`.project-list .${$('select').val()} section`).prepend(`<p>${$('.palette-name').val()}<p>`);
 }
+
+// const sendColorsToProject = colors => {
+//   fetch('http://localhost:3000')
+// }
 
 const grabText = () => {
   const colorCodes = []
