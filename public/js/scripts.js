@@ -2,7 +2,7 @@ const generateButton = $('.generate-palette');
 let projects = []
 
 $(document).ready(() => {
-  fetch('http://localhost:3000/folders')
+  fetch('http://localhost:3000/api/v1/folders')
     .then(response => response.json())
     .then(result => displayProjects(result.folders))
 })
@@ -117,7 +117,7 @@ const createProject = () => {
     "palettes": {}
   }
   projects.push(project)
-  fetch('http://localhost:3000/newFolder', {
+  fetch('http://localhost:3000/api/v1/newFolder', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify(project)
@@ -148,7 +148,7 @@ const savePalette = function() {
 const sendPaletteToProject = (name, colors) => {
   const folder = projects.find(
     project => project.name === $('select').val())
-  fetch(`http://localhost:3000/folders/${folder.id}`, {
+  fetch(`http://localhost:3000/api/v1/folders/${folder.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify({ [name]: colors })

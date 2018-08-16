@@ -10,7 +10,7 @@ app.set('port', process.env.PORT || 3000);
 
 app.locals.folders = []
 
-app.post('/newFolder', (request, response) => {
+app.post('/api/v1/newFolder', (request, response) => {
   const { name } = request.body;
   if(!name) {
     return response.status(401).send({
@@ -24,7 +24,7 @@ app.post('/newFolder', (request, response) => {
   }
 })
 
-app.put('/folders/:id', (request, response) => {
+app.put('/api/v1/folders/:id', (request, response) => {
   if(request.body === {}) {
     return response.status(422).send({
       error: 'no palette provided'
@@ -36,7 +36,7 @@ app.put('/folders/:id', (request, response) => {
   }
 })
 
-app.get('/folders', (request, response) => {
+app.get('/api/v1/folders', (request, response) => {
   return response.status(200).json({ "folders": app.locals.folders })
 })
 
