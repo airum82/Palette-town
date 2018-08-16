@@ -4,7 +4,7 @@ let projects = []
 $(document).ready(() => {
   fetch('http://localhost:3000/api/v1/folders')
     .then(response => response.json())
-    .then(result => displayProjects(result.folders))
+    .then(result => displayProjects(result))
 })
 
 const displayProjects = (folders) => {
@@ -12,7 +12,7 @@ const displayProjects = (folders) => {
     folders.forEach(folder => {
       projects.push(folder);
       $('.project-list').append(
-        `<section class=${folder.name} id=${folder.id}>
+        `<section class=${folder.name} id=${folder.project_id}>
           <h4>${folder.name}</h4>
           <section></section>
          </section>`
@@ -22,22 +22,35 @@ const displayProjects = (folders) => {
           ${folder.name}
         </option>`  
       )
-      displayProjectPalettes(folder.palettes, folder.name)
     })
+    fetchPalettes()
   }
 }
 
-const displayProjectPalettes = (palettes, foldername) => {
-  Object.keys(palettes).forEach(palette => {
-    createPaletteArticle(foldername, palette);
-    const palettePath = `.project-list .${foldername} .${palette}`;
-    palettes[palette].forEach((color, index) => {
+const fetchPalettes = () => {
+  return fetch('http://localhost:3000/api/v1/palettes')
+    .then(response => response.json())
+    .then(palettes => displayProjectPalettes(palettes))
+}
+
+const displayProjectPalettes = (palettes) => {
+  console.log(palettes)
+  palettes.forEach(palette => {
+    createPaletteArticle(palette.project_id, palette.name);
+    const palettePath = `.project-list #${palette.project_id} .${palette.name}`;
+    console.log(palettePath)
+    Object.keys(palette).reduce((colors, prop) => {
+      if(prop.includes('color')) {
+        colors.push(palette[prop])
+      }
+      return colors
+    }, []).forEach((color, index) => {
       $(palettePath).prepend(
         `<div class=${index}>
           </div>`)
       $(`${palettePath} .${index}`).css('background-color', color)
     })
-    $(palettePath).prepend(`<p>${palette}</p>`);
+    $(palettePath).prepend(`<p>${palette.name}</p>`);
   })
 }
 
@@ -113,8 +126,7 @@ const createProject = () => {
   )
   project = {
     "name": $('.project-name').val(),
-    "id": Date.now(),
-    "palettes": {}
+    "project_id": Date.now(),
   }
   projects.push(project)
   fetch('http://localhost:3000/api/v1/newFolder', {
@@ -127,9 +139,8 @@ const createProject = () => {
 
 $('.create').on('click', createProject);
 
-const createPaletteArticle = (currentFolder, paletteName) => {
-  console.log(currentFolder)
-  $(`.project-list .${currentFolder} section`)
+const createPaletteArticle = (project_id, paletteName) => {
+  $(`.project-list #${project_id} section`)
     .prepend(`<article class=${paletteName}></article>`)
 }
 
@@ -142,16 +153,31 @@ const savePalette = function() {
     `.project-list .${currentFolder} .${paletteName}`);
   $(`.project-list .${currentFolder} .${paletteName}`).prepend(`<p>${paletteName}</p>`);
   const colors = grabText(paletteName);
-  sendPaletteToProject(paletteName, colors);
+  sendPaletteToProject(paletteName, colors, selectProject());
 }
 
-const sendPaletteToProject = (name, colors) => {
+const selectProject = () => {
+  return projects.find(project => {
+    return project.name === $('select').val();
+  }).project_id
+}
+
+const sendPaletteToProject = (name, colors, project_id) => {
   const folder = projects.find(
     project => project.name === $('select').val())
-  fetch(`http://localhost:3000/api/v1/folders/${folder.id}`, {
+  const palette = {
+    name,
+    project_id,
+    color1: colors[0],
+    color2: colors[1],
+    color3: colors[2],
+    color4: colors[3],
+    color5: colors[4]
+  }
+  fetch(`http://localhost:3000/api/v1/folders/${project_id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify({ [name]: colors })
+    body: JSON.stringify(palette)
   }).then(response =>  console.log(response))
     .catch(error => console.log(error))
 }

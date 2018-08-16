@@ -46,3 +46,7 @@ button {
 .center {
   text-align: center;
 }
+
+.project-list article div {
+  height: 10vh;
+}

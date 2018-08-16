@@ -17,7 +17,7 @@ exports.up = function(knex, Promise) {
       table.string('color3');
       table.string('color4');
       table.string('color5');
-      table.integer('project_id').unsigned();
+      table.string('project_id').unsigned();
       table.foreign('project_id')
         .references('project_id')
 
