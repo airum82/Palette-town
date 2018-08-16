@@ -4,7 +4,10 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/palette-town',
+    connection: 'postgres://localhost/palettetown',
+    migrations: {
+      directory: './db/migrations'
+    },
     useNullAsDefault: true
   },
 
