@@ -34,11 +34,9 @@ const fetchPalettes = () => {
 }
 
 const displayProjectPalettes = (palettes) => {
-  console.log(palettes)
   palettes.forEach(palette => {
     createPaletteArticle(palette.project_id, palette.name);
     const palettePath = `.project-list #${palette.project_id} .${palette.name}`;
-    console.log(palettePath)
     Object.keys(palette).reduce((colors, prop) => {
       if(prop.includes('color')) {
         colors.push(palette[prop])
@@ -113,8 +111,9 @@ const addLockOption = () => {
 addLockOption();
 
 const createProject = () => {
+  const project_id = Date.now()
   $('.project-list').append(
-    `<section class=${$('.project-name').val()}>
+    `<section id=${project_id}>
       <h4>${$('.project-name').val()}</h4>
       <section class="project-palettes"></section>
      </section>`
@@ -126,7 +125,7 @@ const createProject = () => {
   )
   project = {
     "name": $('.project-name').val(),
-    "project_id": Date.now(),
+    "project_id": project_id,
   }
   projects.push(project)
   fetch('http://localhost:3000/api/v1/newFolder', {
@@ -140,6 +139,7 @@ const createProject = () => {
 $('.create').on('click', createProject);
 
 const createPaletteArticle = (project_id, paletteName) => {
+  console.log('make article')
   $(`.project-list #${project_id} section`)
     .prepend(`<article class=${paletteName}></article>`)
 }
@@ -147,11 +147,13 @@ const createPaletteArticle = (project_id, paletteName) => {
 const savePalette = function() {
   event.preventDefault();
   const currentFolder = $('select').val()
+  const currentId = projects.find(project =>
+    project.name === currentFolder)
   const paletteName = $('.palette-name').val();
-  createPaletteArticle(currentFolder, paletteName)
+  createPaletteArticle(currentId.project_id, paletteName)
   $('.color-palette .color').clone().prependTo(
-    `.project-list .${currentFolder} .${paletteName}`);
-  $(`.project-list .${currentFolder} .${paletteName}`).prepend(`<p>${paletteName}</p>`);
+    `.project-list #${currentId.project_id} .${paletteName}`);
+  $(`.project-list #${currentId.project_id} .${paletteName}`).prepend(`<p>${paletteName}</p>`);
   const colors = grabText(paletteName);
   sendPaletteToProject(paletteName, colors, selectProject());
 }
@@ -185,6 +187,7 @@ const sendPaletteToProject = (name, colors, project_id) => {
 const grabText = (paletteName) => {
   const colorCodes = []
   $(`.project-list .${paletteName} h3`).each((index, h3) => {
+    console.log('grab colors')
     colorCodes.push(h3.innerText);
   })
   return colorCodes;
