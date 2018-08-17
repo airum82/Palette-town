@@ -97,7 +97,7 @@ generateButton.on('click', () => {
 
 preventDuplicateProjects = () => {
   return projects.filter(project => {
-    return project.name === $('select').val()
+    return project.name === $('.project-name').val()
   })
 }
 
