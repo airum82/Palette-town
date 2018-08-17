@@ -45,6 +45,7 @@ const displayProjectPalettes = (palettes) => {
     }, []).forEach((color, index) => {
       $(palettePath).prepend(
         `<div class=${index}>
+          <p>${color}</p>
           </div>`)
       $(`${palettePath} .${index}`).css('background-color', color)
     })
@@ -94,6 +95,12 @@ generateButton.on('click', () => {
   addLockOption();
 })
 
+preventDuplicateProjects = () => {
+  return projects.filter(project => {
+    return project.name === $('select').val()
+  })
+}
+
 const addLockOption = () => {
   $('.color-palette .color-lock').on('click', (e) => {
     const className = $(e.target).parent().attr('class');
@@ -111,6 +118,10 @@ const addLockOption = () => {
 addLockOption();
 
 const createProject = () => {
+  if(preventDuplicateProjects().length) {
+    alert('you cannot have duplicate project names')
+    return
+  }
   const project_id = Date.now()
   $('.project-list').append(
     `<section id=${project_id}>
@@ -146,12 +157,16 @@ const createPaletteArticle = (project_id, paletteName) => {
 
 const savePalette = function() {
   event.preventDefault();
+  if(!projects.length) {
+    alert('you must save it to a project')
+    return
+  }
   const currentFolder = $('select').val()
   const currentId = projects.find(project =>
     project.name === currentFolder)
   const paletteName = $('.palette-name').val();
   createPaletteArticle(currentId.project_id, paletteName)
-  $('.color-palette .color').clone().prependTo(
+  $('.color-palette .color').clone().removeClass('color').prependTo(
     `.project-list #${currentId.project_id} .${paletteName}`);
   $(`.project-list #${currentId.project_id} .${paletteName}`).prepend(`<p>${paletteName}</p>`);
   const colors = grabText(paletteName);
