@@ -62,7 +62,7 @@ app.get('/api/v1/palettes', (request, response) => {
     })
 })
 
-app.listen(3000, () => {
+app.listen(app.get('port'), () => {
   console.log('Palette town running on localhost:3000');
 });
 
