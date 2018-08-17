@@ -12,8 +12,8 @@ describe('GET /api/v1/folders', (done) => {
     .get('/api/v1/folders')
     .end((err, response) => {
       response.should.have.status(200);
-      response.should.be(array);
-      response[0].should.be(object);
+      response.should.be.a('array');
+      response[0].should.be.a('object');
       done();
     })
   })
@@ -25,5 +25,19 @@ describe('GET /api/v1/folders', (done) => {
       response.should.have.status(404);
       done();
     })
+  })
+})
+
+describe('GET /api/v1/palettes', (done) => {
+
+  it('should return an array of palettes', () => {
+    chai.request(server)
+      .get('/api/v1/palettes')
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.should.be.a('array');
+        response[0].should.be.a('object');
+        done();
+      })
   })
 })
