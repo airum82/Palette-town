@@ -50,6 +50,9 @@ app.get('/api/v1/folders', (request, response) => {
     .then((projects) => {
       return response.status(200).json(projects)
     })
+    .catch(error => {
+      return response.status(500).send({ message: 'problem fetching projects'})
+    })
 })
 
 app.get('/api/v1/palettes', (request, response) => {
@@ -62,3 +65,5 @@ app.get('/api/v1/palettes', (request, response) => {
 app.listen(3000, () => {
   console.log('Palette town running on localhost:3000');
 });
+
+module.exports = app;
