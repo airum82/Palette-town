@@ -46,3 +46,19 @@ button {
 .center {
   text-align: center;
 }
+
+.project-list article div {
+  height: 10vh;
+  font-size: 1em;
+  color: white;
+}
+
+.project-list article div button {
+  display: none;
+}
+
+.project-list section article {
+  display: grid;
+  grid-template-columns: 30% 10% 10% 10% 10% 10%;
+  grid-row-gap: 15px;
+}
