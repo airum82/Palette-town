@@ -62,3 +62,12 @@ button {
   grid-template-columns: 30% 10% 10% 10% 10% 10%;
   grid-row-gap: 15px;
 }
+
+.remove {
+  display: inline;
+}
+
+.palette-name p {
+  color: #848080;
+  margin-bottom: 0;
+}

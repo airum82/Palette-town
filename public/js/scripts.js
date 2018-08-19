@@ -16,12 +16,12 @@ const displayProjects = (folders) => {
           <h4>${folder.name}</h4>
           <section></section>
          </section>`
-      )
+      );
       $('select').append(
         `<option value=${folder.name}>
           ${folder.name}
         </option>`  
-      )
+      );
     })
     fetchPalettes()
   }
@@ -49,8 +49,16 @@ const displayProjectPalettes = (palettes) => {
           </div>`)
       $(`${palettePath} .${index}`).css('background-color', color)
     })
-    $(palettePath).prepend(`<p>${palette.name}</p>`);
+    $(palettePath).prepend(
+      ` <p>
+          ${palette.name}
+          <button class="remove">
+            delete
+          </button>
+        </p>`
+    );
   })
+  $('.project-list .remove').on('click', deletePalette);
 }
 
 const addColors = () => {
@@ -168,7 +176,11 @@ const savePalette = function() {
   createPaletteArticle(currentId.project_id, paletteName)
   $('.color-palette .color').clone().removeClass('color').prependTo(
     `.project-list #${currentId.project_id} .${paletteName}`);
-  $(`.project-list #${currentId.project_id} .${paletteName}`).prepend(`<p>${paletteName}</p>`);
+  $(`.project-list #${currentId.project_id} .${paletteName}`).prepend(
+    `<p>${paletteName}</p>
+     <button class="delete">
+      delete
+     </button>`);
   const colors = grabText(paletteName);
   sendPaletteToProject(paletteName, colors, selectProject());
 }
@@ -209,3 +221,19 @@ const grabText = (paletteName) => {
 }
 
 $('.save-palette').on('click', savePalette);
+
+const deletePalette = (e) => {
+  const project_id = $(e.target).parent().parent().parent().parent().attr('id');
+  const paletteName = $(e.target).parent().parent('article').attr('class')
+  removePaletteFromDatabase(project_id, paletteName)
+  $(e.target).parent().parent('article').remove()
+}
+
+const removePaletteFromDatabase = (project_id, paletteName) => {
+  fetch('http://localhost:3000/api/v1/delete/palette',{
+    method:'DELETE',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify({ project_id, paletteName })
+  }).then(message => console.log(message))
+    .catch(error => console.log(error.message))
+}

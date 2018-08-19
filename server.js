@@ -62,6 +62,14 @@ app.get('/api/v1/palettes', (request, response) => {
     })
 })
 
+app.delete('/api/v1/delete/palette', (request, response) => {
+  return database('palettes').select()
+    .where('project_id', request.body.project_id)
+    .where('name', request.body.paletteName)
+    .del()
+    .then(result => console.log(result))
+})
+
 app.listen(app.get('port'), () => {
   console.log('Palette town running on localhost:3000');
 });
