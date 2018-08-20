@@ -176,10 +176,12 @@ const savePalette = function() {
   $('.color-palette .color').clone().removeClass('color').prependTo(
     `.project-list #${currentId.project_id} .${paletteName}`);
   $(`.project-list #${currentId.project_id} .${paletteName}`).prepend(
-    `<p>${paletteName}</p>
+    `<p>${paletteName}
      <button class="delete">
       delete
-     </button>`);
+     </button>
+    </p>`
+  );
   const colors = grabText(paletteName);
   sendPaletteToProject(paletteName, colors, selectProject());
 }
