@@ -158,7 +158,6 @@ const createProject = () => {
 $('.create').on('click', createProject);
 
 const createPaletteArticle = (project_id, paletteName) => {
-  console.log('make article')
   $(`.project-list #${project_id} section`)
     .prepend(`<article class=${paletteName}></article>`)
 }
@@ -214,7 +213,6 @@ const sendPaletteToProject = (name, colors, project_id) => {
 const grabText = (paletteName) => {
   const colorCodes = []
   $(`.project-list .${paletteName} h3`).each((index, h3) => {
-    console.log('grab colors')
     colorCodes.push(h3.innerText);
   })
   return colorCodes;
