@@ -228,7 +228,7 @@ const deletePalette = (e) => {
 }
 
 const removePaletteFromDatabase = (project_id, paletteName) => {
-  fetch('http://localhost:3000/api/v1/delete/palette',{
+  fetch('/api/v1/delete/palette',{
     method:'DELETE',
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify({ project_id, paletteName })
