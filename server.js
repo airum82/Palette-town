@@ -18,9 +18,9 @@ app.locals.folders = []
 app.post('/api/v1/newFolder', (request, response) => {
   const { name } = request.body;
   if(!name) {
-    return response.status(401).send({
-      error: 'no new folder provided'
-    })
+    return response.status(401).send(new Error({
+      message: 'no folder name provided'
+    }))
   } else {
     app.locals.folders.push(request.body)
     database('projects').insert(request.body, 'id')
@@ -39,9 +39,6 @@ app.put('/api/v1/folders/:id', (request, response) => {
     database('palettes').insert(request.body, 'id')
       .then(palette => response.status(200).send({ message: 
         'new palette added to project'}))
-    // const folder = app.locals.folders.find(
-    //   folder => folder.project_id === parseInt(request.params.id));
-    // folder.palettes = Object.assign({}, folder.palettes, request.body)
   }
 })
 
@@ -67,7 +64,7 @@ app.delete('/api/v1/delete/palette', (request, response) => {
     .where('project_id', request.body.project_id)
     .where('name', request.body.paletteName)
     .del()
-    .then(result => console.log(result))
+    .then(result => response.status(200).json(result))
 })
 
 app.listen(app.get('port'), () => {

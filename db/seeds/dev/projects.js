@@ -15,7 +15,8 @@ exports.seed = function(knex, Promise) {
             color2: 'pink',
             color3: 'orange',
             color4: 'blue',
-            color5: 'red' }
+            color5: 'red',
+            name: 'palette1' }
         )
       ])
     });

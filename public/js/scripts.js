@@ -142,7 +142,7 @@ const createProject = () => {
       ${$('.project-name').val()}
     </option>`
   )
-  project = {
+  const project = {
     "name": $('.project-name').val(),
     "project_id": project_id,
   }
