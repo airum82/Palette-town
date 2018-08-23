@@ -2,3 +2,8 @@ language: node_js
 node_js:
   - "iojs"
   - "7"
+services:
+  -postgresql
+before_script:
+  -psql -c 'CREATE DATABASE palettetown_test;' -U
+   postgres
