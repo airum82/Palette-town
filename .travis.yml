@@ -1,9 +1,17 @@
 language: node_js
 node_js:
-  - "iojs"
-  - "7"
+- iojs
+- '7'
 services:
-  - postgresql
+- postgresql
 before_script:
-  - psql -c 'CREATE DATABASE palettetown_test;' -U
-   postgres
+- psql -c 'CREATE DATABASE palettetown_test;' -U postgres
+notifications:
+  email: false
+deploy:
+  provider: heroku
+  api_key:
+    secure: XDATGSRRJGXOnh906brzxSMOyXmKfVl/VaCvMPZz8H3zON0bFs8kKjffLB0euE9Az8PEEVCwVxcA0FqusPkTDgW399C+/osiqUIk9khFLcXn+TfFowgp8JQ+rY9Kp0rDYlGfp+G1MoXi/PFf0D46E3lGN67/GeY18zwzhAuy7Uto9mS/9okRGOC/q3nKlo595SD1LicUyR0kSCSh36ZzBIw6Bzxad9DOyuSN/aMl7A6qbWWEhwlmuza6wI6Kxv7iMDHA3ZebYA7RG0KK94CmvOPyy1wmOHtHxal3TNlT8hh9B0lzJPYACAhkDt24P+7L/55WRfKLnFcrxxzagyS2Jc0LRLEaNlhOu2b7sEB4fkiuhOM+HRIniPXoeEuJNLRdQphGd35e60yMKgHi4hK0T+p2EcdVygTfZ72z4JahlsDYjNjkjAHBCzS/xHPbMWg6Bd1WgRMWgKu6XbQzW3gTat09CE76DYKliWtInMB4GRuqSlsM7HDB5sblc50wkgC9rIOM530dbKjUB5HbwssOueBnjpbcLM5IhNb3HU2qYeo8UmarY9wQ2IAdN8yZBGow9Oo8j8OXq9Ap+k8YoO728mrAxqAGDbV7W/YOde7IRBncssNbjT2MhYx4NvRESk02EkLtyUBkqFEtFFJ7KyaJHVxISGB30o7Kt7ANSJr3WWA=
+  app: palette-town
+  on:
+    repo: airum82/Palette-town
