@@ -3,7 +3,7 @@ node_js:
   - "iojs"
   - "7"
 services:
-  -postgresql
+  - postgresql
 before_script:
-  -psql -c 'CREATE DATABASE palettetown_test;' -U
+  - psql -c 'CREATE DATABASE palettetown_test;' -U
    postgres
