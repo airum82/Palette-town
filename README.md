@@ -18,5 +18,16 @@ Javascript<br>jQuery<br>Node.js<br>Express<br>Knex<br>Postgres<br>CSS
 
 <b>Link to hosted site:</b> https://palette-town.herokuapp.com/
 
+<b>Screenshot</b>
 
+<img src="https://github.com/airum82/Palette-town/blob/master/Screen%20Shot%202018-09-14%20at%2011.38.58%20AM.png" alt="a picture of the application page">
 
+<b>Installation:</b>
+
+```clone down this repo```
+
+```run npm install```
+
+```install postgres if not already installed```
+
+```create palettetown and palettetown_test databases in postgres```
